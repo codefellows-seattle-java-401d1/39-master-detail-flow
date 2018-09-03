@@ -20,11 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ErrandListActivity extends AppCompatActivity {
-
-    @BindView(R.id.errands) RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    ErrandAdapter errandAdapter;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,31 +31,5 @@ public class ErrandListActivity extends AppCompatActivity {
         fm.beginTransaction()
                 .add(R.id.single_fragment_container, fragment)
                 .commit();
-
-//        ButterKnife.bind(this);
-//
-//        DatabaseReference errands = FirebaseDatabase.getInstance().getReference("errands");
-//        errands.addValueEventListener(this);
-//
-//        linearLayoutManager = new LinearLayoutManager(this);
-//        errandAdapter = new ErrandAdapter();
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.setAdapter(errandAdapter);
     }
-
-//    @Override
-//    public void onDataChange(DataSnapshot dataSnapshot) {
-//        List<Errand> errands = new ArrayList<>();
-//
-//        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//            errands.add(Errand.fromSnapshot(snapshot));
-//        }
-//        errandAdapter.errands = errands;
-//        errandAdapter.notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void onCancelled(DatabaseError databaseError) {
-//
-//    }
 }
