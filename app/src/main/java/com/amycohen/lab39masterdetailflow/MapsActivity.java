@@ -58,6 +58,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        attachFirebaseListener();
+
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            initializeLocationListener();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[] {
+                    ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+            }, REQUEST_PERMISSION_GRANT );
+        }
+    }
+
+    private void attachFirebaseListener() {
+        // pulled out of the onCreate method to clean it up
         final Intent data = getIntent();
 
         FirebaseDatabase.getInstance().getReference("errands")
@@ -74,14 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 );
 
-//                double centerLat = (errand.start.latitude + errand.end.latitude) / 2;
-//                double centerLng = (errand.start.longitude + errand.end.longitude) / 2;
-//
-//                mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
-//
-//                LatLng center = new LatLng(centerLat, centerLng);
-
-                //race condition
+                //this was in a race condition with the initialization of the actual ma
+                // have to call it after the map is initialized
                 LatLngBounds bounds = LatLngBounds.builder()
                         .include(errand.start)
                         .include(errand.end)
@@ -95,15 +103,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            initializeLocationListener();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[] {
-                    ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-            }, REQUEST_PERMISSION_GRANT );
-        }
     }
 
     @SuppressLint("MissingPermission")
