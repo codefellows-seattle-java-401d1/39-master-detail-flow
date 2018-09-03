@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -63,8 +64,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Errand errand = Errand.fromSnapshot(dataSnapshot);
-                mMap.addMarker(new MarkerOptions().position(errand.start).title("start"));
-                mMap.addMarker(new MarkerOptions().position(errand.end).title("end"));
+                mMap.addMarker(
+                        new MarkerOptions().position(errand.start).title("start")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                );
+                mMap.addMarker(
+                        new MarkerOptions().position(errand.end).title("end")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                );
 
                 double centerLat = (errand.start.latitude + errand.end.latitude) / 2;
                 double centerLng = (errand.start.longitude + errand.end.longitude) / 2;
