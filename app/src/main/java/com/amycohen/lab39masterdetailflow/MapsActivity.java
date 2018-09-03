@@ -60,7 +60,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         attachFirebaseListener();
 
-        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        checkPermissions();
+    }
+
+    private void checkPermissions() {
+        //pulled out of onCreate to clean up the code and make for easier readability
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             initializeLocationListener();
         } else {
             ActivityCompat.requestPermissions(this, new String[] {
@@ -71,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void attachFirebaseListener() {
-        // pulled out of the onCreate method to clean it up
+        //pulled out of onCreate to clean up the code and make for easier readability
         final Intent data = getIntent();
 
         FirebaseDatabase.getInstance().getReference("errands")
