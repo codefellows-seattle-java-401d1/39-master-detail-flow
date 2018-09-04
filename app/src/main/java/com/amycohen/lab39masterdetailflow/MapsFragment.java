@@ -200,8 +200,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     @OnClick(R.id.gpsOn)
     public void turnGpsOn() {
         //Enable GPS
-        onRequestPermissionsResult(REQUEST_PERMISSION_GRANT, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
-                new int[]{Activity.RESULT_OK});
+        initializeLocationListener();
+//        onRequestPermissionsResult(REQUEST_PERMISSION_GRANT, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
+//                new int[]{Activity.RESULT_OK});
         Toast.makeText(getActivity().getApplicationContext(), "GPS is on", Toast.LENGTH_LONG).show();
         Log.d("GPS", "gps turned on");
     }
