@@ -51,7 +51,7 @@ public class ErrandListFragment extends Fragment implements ValueEventListener {
         }
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        errandAdapter = new ErrandAdapter();
+        errandAdapter = new ErrandAdapter(isTwoPane, getChildFragmentManager());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(errandAdapter);
 

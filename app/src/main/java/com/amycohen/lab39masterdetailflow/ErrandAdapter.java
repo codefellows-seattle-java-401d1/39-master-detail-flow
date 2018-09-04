@@ -2,6 +2,8 @@ package com.amycohen.lab39masterdetailflow;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +16,13 @@ import java.util.List;
 
 class ErrandAdapter extends RecyclerView.Adapter<ErrandAdapter.MyViewHolder> {
     public List<Errand> errands;
+    private boolean isTwoPane;
+    private FragmentManager fragmentManager;
 
-    public ErrandAdapter () {
+    public ErrandAdapter (boolean isTwoPane, FragmentManager fragmentManager) {
         errands = new ArrayList<>();
+        this.isTwoPane = isTwoPane;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -62,10 +68,17 @@ class ErrandAdapter extends RecyclerView.Adapter<ErrandAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mView.getContext(), MapsActivity.class);
-            intent.putExtra("id", errand.id);
-            mView.getContext().startActivity(intent);
 
+            if (isTwoPane) {
+                Fragment fragment = new MapsFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.detail_fragment_container, fragment)
+                        .commit();
+            } else {
+                Intent intent = new Intent(mView.getContext(), MapsActivity.class);
+                intent.putExtra("id", errand.id);
+                mView.getContext().startActivity(intent);
+            }
         }
     }
 }
