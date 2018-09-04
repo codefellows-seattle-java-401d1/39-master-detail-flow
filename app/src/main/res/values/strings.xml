@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MasterDetailErrandRunner</string>
+    <string name="title_errand_detail">Errand Detail</string>
+</resources>
