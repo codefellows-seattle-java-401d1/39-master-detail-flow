@@ -52,9 +52,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     //from lecture demo
     private LatLng mCurrentLocation;
 
+    private String databaseKey;
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_maps, container, false);
+
+        Intent data = getActivity().getIntent();
+        Bundle arguments = getArguments();
+        if (data != null &&  data.hasExtra("key")) {
+            databaseKey = data.getStringExtra("key");
+        } else if (arguments != null && arguments.containsKey("key")){
+            databaseKey = arguments.getString("key");
+        }
+
         ButterKnife.bind(this, view);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -81,14 +93,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     private void attachFirebaseListener() {
         //pulled out of onCreate to clean up the code and make for easier readability
-        final Intent data = getActivity().getIntent();
-
-        if (data == null || !data.hasExtra("id")) {
+        if (databaseKey == null) {
             return;
         }
 
         FirebaseDatabase.getInstance().getReference("errands")
-                .child(data.getStringExtra("id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                .child(databaseKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Errand errand = Errand.fromSnapshot(dataSnapshot);

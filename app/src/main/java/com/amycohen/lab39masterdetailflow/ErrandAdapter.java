@@ -1,6 +1,7 @@
 package com.amycohen.lab39masterdetailflow;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -71,12 +72,17 @@ class ErrandAdapter extends RecyclerView.Adapter<ErrandAdapter.MyViewHolder> {
 
             if (isTwoPane) {
                 Fragment fragment = new MapsFragment();
+
+                Bundle arguments = new Bundle();
+                arguments.putString("key", errand.id);
+                fragment.setArguments(arguments);
+
                 fragmentManager.beginTransaction()
                         .replace(R.id.detail_fragment_container, fragment)
                         .commit();
             } else {
                 Intent intent = new Intent(mView.getContext(), MapsActivity.class);
-                intent.putExtra("id", errand.id);
+                intent.putExtra("key", errand.id);
                 mView.getContext().startActivity(intent);
             }
         }
