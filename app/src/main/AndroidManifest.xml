@@ -51,6 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MapsFragment" />
+        <activity android:name=".ErrandListFragment"></activity>
     </application>
 
 </manifest>
