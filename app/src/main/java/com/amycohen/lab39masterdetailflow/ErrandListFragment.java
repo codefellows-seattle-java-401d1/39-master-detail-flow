@@ -2,6 +2,7 @@ package com.amycohen.lab39masterdetailflow;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class ErrandListFragment extends Fragment implements ValueEventListener {
     LinearLayoutManager linearLayoutManager;
     ErrandAdapter errandAdapter;
 
+    private boolean isTwoPane;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -36,6 +38,17 @@ public class ErrandListFragment extends Fragment implements ValueEventListener {
 
         DatabaseReference errands = FirebaseDatabase.getInstance().getReference("errands");
         errands.addValueEventListener(this);
+
+        isTwoPane = false;
+        if (view.findViewById(R.id.detail_fragment_container) != null) {
+            isTwoPane = true;
+
+            Fragment fragment = new MapsFragment();
+            FragmentManager fm = getChildFragmentManager();
+            fm.beginTransaction()
+                    .add(R.id.detail_fragment_container, fragment)
+                    .commit();
+        }
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         errandAdapter = new ErrandAdapter();

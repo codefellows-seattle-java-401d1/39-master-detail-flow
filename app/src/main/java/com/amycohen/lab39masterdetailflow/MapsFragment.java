@@ -83,6 +83,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         //pulled out of onCreate to clean up the code and make for easier readability
         final Intent data = getActivity().getIntent();
 
+        if (data == null) {
+            return;
+        }
+
         FirebaseDatabase.getInstance().getReference("errands")
                 .child(data.getStringExtra("id")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
